@@ -4,4 +4,4 @@ Built with React Native + Expo. Automatically uploads invoices and extracts prod
 
 ## Styling
 
-The project now uses **Tailwind CSS** via the [NativeWind](https://www.nativewind.dev/) library. Tailwind classes can be applied directly to React Native components using the `className` prop.
+The project uses plain React Native styles defined with `StyleSheet`.
