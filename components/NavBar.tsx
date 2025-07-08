@@ -1,4 +1,4 @@
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function NavBar() {
@@ -8,6 +8,7 @@ export default function NavBar() {
         source={require('@/assets/images/neebys.logo.jpg')}
         style={styles.logo}
       />
+      <Text style={styles.tagline}>Scan receipts, create stores.</Text>
     </SafeAreaView>
   );
 }
@@ -25,5 +26,10 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     resizeMode: 'contain',
+  },
+  tagline: {
+    color: '#ffffff',
+    fontSize: 16,
+    marginLeft: 12,
   },
 });

@@ -41,6 +41,22 @@ export default function RootHome() {
     }
   };
 
+  const openImagePicker = async () => {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permission.granted) {
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 0.7,
+    });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+    }
+  };
+
   const cameraStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: bounce.value }],
   }));
@@ -50,6 +66,7 @@ export default function RootHome() {
       <Stack.Screen
         options={{
           title: 'Home',
+          headerTitle: 'Scan receipts, create stores.',
           headerLeft: () => (
             <Image
               source={require('@/assets/images/neebys.logo.jpg')}
@@ -65,9 +82,14 @@ export default function RootHome() {
           <Text style={styles.title}>neebys</Text>
         </View>
         <Animated.View style={[styles.cameraWrapper, cameraStyle]}>
-          <Pressable onPress={openCamera}>
-            <Ionicons name="camera" size={64} color="#ffffff" />
-          </Pressable>
+          <View style={styles.iconRow}>
+            <Pressable onPress={openCamera} style={styles.iconButton}>
+              <Ionicons name="camera" size={64} color="#ffffff" />
+            </Pressable>
+            <Pressable onPress={openImagePicker} style={styles.iconButton}>
+              <Ionicons name="image" size={64} color="#ffffff" />
+            </Pressable>
+          </View>
         </Animated.View>
         {imageUri && (
           <Image
@@ -101,6 +123,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 40,
     alignSelf: 'center',
+  },
+  iconRow: {
+    flexDirection: 'row',
+    gap: 16,
+  },
+  iconButton: {
+    paddingHorizontal: 8,
   },
   preview: {
     width: '80%',
