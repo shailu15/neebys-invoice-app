@@ -1,5 +1,5 @@
 import { Stack } from 'expo-router';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, {
@@ -41,15 +41,38 @@ export default function RootHome() {
           ),
         }}
       />
-      <View className="flex-1 bg-gray-900">
+      <View style={styles.container}>
         <NavBar />
-        <View className="flex-1 items-center justify-center">
-          <Text className="mt-5 text-3xl font-bold text-white">neebys</Text>
+        <View style={styles.contentWrapper}>
+          <Text style={styles.title}>neebys</Text>
         </View>
-        <Animated.View className="absolute bottom-10 self-center" style={cameraStyle}>
+        <Animated.View style={[styles.cameraWrapper, cameraStyle]}>
           <Ionicons name="camera" size={64} color="#ffffff" />
         </Animated.View>
       </View>
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#111827',
+  },
+  contentWrapper: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    marginTop: 20,
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#ffffff',
+  },
+  cameraWrapper: {
+    position: 'absolute',
+    bottom: 40,
+    alignSelf: 'center',
+  },
+});
