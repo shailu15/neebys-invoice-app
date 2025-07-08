@@ -1,7 +1,8 @@
 import { Stack } from 'expo-router';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -9,11 +10,12 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import NavBar from '@/components/NavBar';
 
 export default function RootHome() {
   const bounce = useSharedValue(0);
+  const [imageUri, setImageUri] = useState<string | null>(null);
 
   useEffect(() => {
     bounce.value = withRepeat(
@@ -22,6 +24,22 @@ export default function RootHome() {
       true
     );
   }, [bounce]);
+
+  const openCamera = async () => {
+    const permission = await ImagePicker.requestCameraPermissionsAsync();
+    if (!permission.granted) {
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 0.7,
+    });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+    }
+  };
 
   const cameraStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: bounce.value }],
@@ -47,8 +65,17 @@ export default function RootHome() {
           <Text style={styles.title}>neebys</Text>
         </View>
         <Animated.View style={[styles.cameraWrapper, cameraStyle]}>
-          <Ionicons name="camera" size={64} color="#ffffff" />
+          <Pressable onPress={openCamera}>
+            <Ionicons name="camera" size={64} color="#ffffff" />
+          </Pressable>
         </Animated.View>
+        {imageUri && (
+          <Image
+            source={{ uri: imageUri }}
+            style={styles.preview}
+            contentFit="cover"
+          />
+        )}
       </View>
     </>
   );
@@ -74,5 +101,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 40,
     alignSelf: 'center',
+  },
+  preview: {
+    width: '80%',
+    height: 200,
+    alignSelf: 'center',
+    marginBottom: 20,
+    borderRadius: 8,
   },
 });

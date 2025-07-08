@@ -1,13 +1,14 @@
-import { Image, View, StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function NavBar() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView edges={["top"]} style={styles.container}>
       <Image
         source={require('@/assets/images/neebys.logo.jpg')}
         style={styles.logo}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
