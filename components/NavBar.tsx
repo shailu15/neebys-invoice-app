@@ -1,25 +1,13 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, View } from 'react-native';
 
 export default function NavBar() {
   return (
-    <View style={styles.navbar}>
-      <Image source={require('@/assets/images/neebys.logo.jpg')} style={styles.logo} />
+    <View className="h-14 w-full bg-gray-800 flex-row items-center px-4">
+      <Image
+        source={require('@/assets/images/neebys.logo.jpg')}
+        className="h-10 w-10"
+        style={{ resizeMode: 'contain' }}
+      />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  navbar: {
-    height: 60,
-    width: '100%',
-    backgroundColor: '#333333',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-  },
-  logo: {
-    height: 40,
-    width: 40,
-    resizeMode: 'contain',
-  },
-});
