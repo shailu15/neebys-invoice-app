@@ -1,19 +1,15 @@
-import { Link, Stack } from 'expo-router';
-import { StyleSheet } from 'react-native';
-
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { Stack } from 'expo-router';
+import { StyleSheet, View, Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function RootHome() {
   return (
     <>
       <Stack.Screen options={{ title: 'Home' }} />
-      <ThemedView style={styles.container}>
-        <ThemedText type="title">Welcome to Neebys Invoice App</ThemedText>
-        <Link href="/(tabs)" style={styles.link}>
-          <ThemedText type="link">Enter App</ThemedText>
-        </Link>
-      </ThemedView>
+      <View style={styles.container}>
+        <Ionicons name="camera" size={64} color="black" />
+        <Text style={styles.title}>neebys</Text>
+      </View>
     </>
   );
 }
@@ -23,10 +19,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    backgroundColor: 'lightblue',
   },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
+  title: {
+    marginTop: 20,
+    fontSize: 32,
+    fontWeight: 'bold',
   },
 });
