@@ -1,10 +1,32 @@
 import { Stack } from 'expo-router';
-import { StyleSheet, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
+import { useEffect } from 'react';
 import NavBar from '@/components/NavBar';
 
 export default function RootHome() {
+  const bounce = useSharedValue(0);
+
+  useEffect(() => {
+    bounce.value = withRepeat(
+      withSequence(withTiming(-10, { duration: 400 }), withTiming(0, { duration: 400 })),
+      -1,
+      true
+    );
+  }, [bounce]);
+
+  const cameraStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: bounce.value }],
+  }));
+
   return (
     <>
       <Stack.Screen
@@ -19,36 +41,15 @@ export default function RootHome() {
           ),
         }}
       />
-      <View style={styles.container}>
+      <View className="flex-1 bg-gray-900">
         <NavBar />
-        <View style={styles.content}>
-          <Text style={styles.title}>neebys</Text>
+        <View className="flex-1 items-center justify-center">
+          <Text className="mt-5 text-3xl font-bold text-white">neebys</Text>
         </View>
-        <Ionicons name="camera" size={64} color="#ffffff" style={styles.camera} />
+        <Animated.View className="absolute bottom-10 self-center" style={cameraStyle}>
+          <Ionicons name="camera" size={64} color="#ffffff" />
+        </Animated.View>
       </View>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#333333',
-  },
-  content: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    marginTop: 20,
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#ffffff',
-  },
-  camera: {
-    position: 'absolute',
-    bottom: 40,
-    alignSelf: 'center',
-  },
-});
